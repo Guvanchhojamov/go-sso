@@ -35,7 +35,7 @@ func MustLoad() *Config {
 	return cnf
 }
 
-// fetchConfigEnvPath for laoding config files from right path: ex: "go run main.go env=local" loading
+// fetchConfigEnvPath for laoding config files from right path: ex: "go run main.go config=../local/config.yml" loading
 // files from 'local' folder ../local/config.yaml
 func fetchConfigEnvPath() string {
 	var res string
