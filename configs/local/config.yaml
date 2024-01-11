@@ -1,4 +1,4 @@
-env: "local"  #local|debug|prod
+env: "local"  #local|dev|prod
 db_path: "/sqlite/sso.db"
 token_ttl: 24h
 grpc:
