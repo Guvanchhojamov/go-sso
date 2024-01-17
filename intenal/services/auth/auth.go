@@ -52,7 +52,7 @@ func (a *Auth) RegisterNewUser(ctx context.Context, email string, password strin
 		slog.String("op", op),
 		slog.String("email", email),
 	)
-	log.Info("redistering user")
+	log.Info("registering user")
 
 	//generate password hash
 	passHash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
