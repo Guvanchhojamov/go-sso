@@ -15,11 +15,11 @@ const (
 )
 
 func main() {
-	var databasePath, migrationsPath, migrationsTable, command, down string
-	flag.StringVar(&databasePath, "database-path", "./database", "path to database folder")
-	flag.StringVar(&migrationsPath, "migrations-path", "./database/migration_up.sql", "path to migrations")
-	flag.StringVar(&migrationsTable, "migrations-table", "migrations", "name of migrations table")
-	flag.StringVar(&command, "command", "", "up all migrations")
+	var databasePath, migrationsPath, migrationsTable, command string
+	flag.StringVar(&databasePath, "database-path", "./database/sso.db", "path to database folder")
+	flag.StringVar(&migrationsPath, "migrations-path", "./migrations", "path to migrations")
+	flag.StringVar(&migrationsTable, "migrations-table", "schema_migrations", "name of migrations table")
+	flag.StringVar(&command, "command", "run", "migration command up|down")
 
 	flag.Parse()
 
@@ -36,15 +36,27 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	if down == "up" {
+	// command for migrate up|down:
+	// go run ./cmd/migrator --command=up
+	// go run ./cmd/migrator --command=down
+
+	switch command {
+	case "up":
 		if err = m.Up(); err != nil {
 			if errors.Is(err, migrate.ErrNoChange) {
 				fmt.Println("migrations up to date")
 			}
 			panic(err)
 		}
-	} else {
-
+		fmt.Println("migrations up success")
+	case "down":
+		if err = m.Down(); err != nil {
+			fmt.Println("migrations down error")
+			panic(err)
+		}
+		fmt.Println("migrations down success")
+	default:
+		fmt.Println("please enter flag --command=up|down")
 	}
 
 }
